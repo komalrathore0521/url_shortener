@@ -7,6 +7,6 @@ COPY  --from=build /target/url-shortener-0.0.1-SNAPSHOT.jar url-shortener.jar
 
 EXPOSE 8081
 
-ENTRYPOINT ["java","-jar","url-shortener.java"]
+ENTRYPOINT ["java","-jar","url-shortener.jar"]
 
 
