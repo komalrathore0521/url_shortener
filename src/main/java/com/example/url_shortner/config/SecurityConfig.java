@@ -68,7 +68,7 @@ public class SecurityConfig {
                 // --- CHANGE 2: Correct the order of security rules ---
                 .authorizeHttpRequests(auth -> auth
                         // Specific public endpoints first
-                        .requestMatchers("/api/auth/**", "/{shortUrl:[a-zA-Z0-9]{7}}").permitAll()
+                         .requestMatchers("/", "/api/auth/**", "/{shortUrl:[a-zA-Z0-9]{7}}").permitAll()
                         // All other requests must be authenticated
                         .anyRequest().authenticated()
                 )
