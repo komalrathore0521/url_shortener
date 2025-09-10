@@ -1,0 +1,38 @@
+# This file tells Render how to build and deploy your Spring Boot application.
+services:
+  # This defines your web application.
+  - type: web
+    # A name for your service, which will be part of its public URL.
+    name: swiftlink-app
+    # Use the free instance type.
+    plan: free
+    # --- THIS IS THE CRITICAL FIX ---
+    # Explicitly tell Render to use a Java environment.
+    runtime: java
+    # The command to build your application.
+    buildCommand: "./mvnw clean install -DskipTests"
+    # The command to run your application after it's built.
+    startCommand: "java -jar target/url-shortener-0.0.1-SNAPSHOT.jar"
+    # A path that Render can check to see if your application started successfully.
+    healthCheckPath: "/"
+    # --- Environment Variables ---
+    envVars:
+      # This tells Spring Boot to run on the port Render expects.
+      - key: SERVER_PORT
+        value: 10000
+      # These are your secrets. You will set their values in the Render dashboard.
+      - key: DB_URL
+        # This 'sync: false' tells Render not to worry if the value isn't pre-set.
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: REDIS_HOST
+        sync: false
+      - key: REDIS_PORT
+        sync: false
+      - key: REDIS_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        sync: false
