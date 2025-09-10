@@ -1,0 +1,21 @@
+# This is a public template file. It is safe to commit to GitHub.
+# It shows the required configuration, but contains NO secret values.
+
+# Server Configuration
+server.port=8081
+
+# --- PostgreSQL Configuration (Neon) ---
+# Find these details on your Neon dashboard
+DB_URL=jdbc:postgresql://<YOUR_NEON_HOST>/<YOUR_DB_NAME>?sslmode=require
+DB_USERNAME=<YOUR_NEON_USERNAME>
+DB_PASSWORD=<YOUR_NEON_PASSWORD>
+
+# --- Cloud Redis Configuration (Upstash) ---
+# Find these details on your Upstash dashboard
+REDIS_HOST=<YOUR_UPSTASH_HOST>
+REDIS_PORT=<YOUR_UPSTASH_PORT>
+REDIS_PASSWORD=<YOUR_UPSTASH_PASSWORD>
+
+# --- JWT Secret Key ---
+# Use a long, random string
+JWT_SECRET=<YOUR_SUPER_SECRET_JWT_KEY>
