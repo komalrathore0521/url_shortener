@@ -7,9 +7,9 @@ export default function Landing() {
   const { isAuthenticated } = useAuth()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-indigo-100">
+    <div className="min-h-screen gradient-bg">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="glass-effect shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center">
@@ -48,15 +48,15 @@ export default function Landing() {
       {/* Hero Section */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 animate-fade-in">
             Shorten URLs with
             <span className="text-primary-600"> Style</span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in">
             Create short, memorable links with custom aliases, expiration dates, and detailed analytics. 
             Perfect for social media, marketing campaigns, and more.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up">
             {isAuthenticated ? (
               <Link
                 to="/dashboard"
@@ -84,8 +84,8 @@ export default function Landing() {
         </div>
 
         {/* Features */}
-        <div className="mt-20 grid md:grid-cols-3 gap-8">
-          <div className="card text-center">
+        <div className="mt-20 grid md:grid-cols-3 gap-8 animate-fade-in">
+          <div className="card text-center hover:scale-105 transition-transform duration-200">
             <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-4">
               <Zap className="h-6 w-6 text-primary-600" />
             </div>
@@ -95,7 +95,7 @@ export default function Landing() {
             </p>
           </div>
           
-          <div className="card text-center">
+          <div className="card text-center hover:scale-105 transition-transform duration-200">
             <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-4">
               <Shield className="h-6 w-6 text-primary-600" />
             </div>
@@ -105,7 +105,7 @@ export default function Landing() {
             </p>
           </div>
           
-          <div className="card text-center">
+          <div className="card text-center hover:scale-105 transition-transform duration-200">
             <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-4">
               <BarChart3 className="h-6 w-6 text-primary-600" />
             </div>
