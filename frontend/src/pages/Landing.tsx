@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { Link as LinkIcon, Zap, Shield, BarChart3 } from 'lucide-react'
+import { Link as LinkIcon, Zap, Shield, ChartBar as BarChart3 } from 'lucide-react'
 
 export default function Landing() {
   const { isAuthenticated } = useAuth()

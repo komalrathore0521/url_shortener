@@ -1,14 +1,7 @@
 import React, { useState } from 'react'
 import { UrlResponse } from '../services/api'
 import { format } from 'date-fns'
-import { 
-  ExternalLink, 
-  Copy, 
-  Trash2, 
-  Calendar, 
-  BarChart3,
-  AlertTriangle
-} from 'lucide-react'
+import { ExternalLink, Copy, Trash2, Calendar, ChartBar as BarChart3, TriangleAlert as AlertTriangle } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import DeleteConfirmModal from './DeleteConfirmModal'
 

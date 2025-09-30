@@ -1,6 +1,6 @@
 import React from 'react'
 import { UrlResponse } from '../services/api'
-import { AlertTriangle, X } from 'lucide-react'
+import { TriangleAlert as AlertTriangle, X } from 'lucide-react'
 
 interface DeleteConfirmModalProps {
   url: UrlResponse
