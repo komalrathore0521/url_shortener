@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeParseException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,15 +34,45 @@ public class UrlService {
 
     public UrlResponse shortenUrl(ShortenRequest shortenRequest, User user, String baseUrl) {
         String originalUrl = shortenRequest.getOriginalUrl();
-        String shortUrl = generateShortUrl();
+        String shortUrl;
+        
+        // Handle custom alias
+        if (shortenRequest.getCustomAlias() != null && !shortenRequest.getCustomAlias().trim().isEmpty()) {
+            String customAlias = shortenRequest.getCustomAlias().trim();
+            
+            // Validate alias format (alphanumeric, 3-20 characters)
+            if (!customAlias.matches("^[a-zA-Z0-9]{3,20}$")) {
+                throw new RuntimeException("Custom alias must be 3-20 characters long and contain only letters and numbers");
+            }
+            
+            // Check if alias is already taken
+            if (urlMappingRepository.existsByShortUrl(customAlias)) {
+                throw new RuntimeException("Custom alias is already taken");
+            }
+            
+            shortUrl = customAlias;
+        } else {
+            shortUrl = generateShortUrl();
+        }
 
         UrlMapping urlMapping = new UrlMapping();
         urlMapping.setOriginalUrl(originalUrl);
         urlMapping.setShortUrl(shortUrl);
         urlMapping.setUser(user);
         urlMapping.setCreatedAt(LocalDateTime.now());
-        if (shortenRequest.getExpiresInDays() != null && shortenRequest.getExpiresInDays() > 0) {
+        
+        // Handle expiration date
+        if (shortenRequest.getExpirationDate() != null && !shortenRequest.getExpirationDate().trim().isEmpty()) {
+            try {
+                urlMapping.setExpiresAt(LocalDateTime.parse(shortenRequest.getExpirationDate()));
+            } catch (DateTimeParseException e) {
+                throw new RuntimeException("Invalid expiration date format. Use ISO format (YYYY-MM-DDTHH:mm:ss)");
+            }
+        } else if (shortenRequest.getExpiresInDays() != null && shortenRequest.getExpiresInDays() > 0) {
             urlMapping.setExpiresAt(LocalDateTime.now().plusDays(shortenRequest.getExpiresInDays()));
+        } else {
+            // Default to 30 days if no expiration is specified
+            urlMapping.setExpiresAt(LocalDateTime.now().plusDays(30));
         }
 
         UrlMapping savedMapping = urlMappingRepository.save(urlMapping);
@@ -54,6 +85,30 @@ public class UrlService {
         }
 
         return new UrlResponse(savedMapping, baseUrl);
+    }
+
+    @Transactional
+    public boolean deleteUrl(String shortUrl, User user) {
+        Optional<UrlMapping> urlMappingOptional = urlMappingRepository.findByShortUrl(shortUrl);
+        
+        if (urlMappingOptional.isPresent()) {
+            UrlMapping urlMapping = urlMappingOptional.get();
+            
+            // Check if the user owns this URL
+            if (!urlMapping.getUser().getId().equals(user.getId())) {
+                throw new RuntimeException("You don't have permission to delete this URL");
+            }
+            
+            // Delete from database
+            urlMappingRepository.delete(urlMapping);
+            
+            // Delete from cache
+            redisTemplate.delete(shortUrl);
+            
+            return true;
+        }
+        
+        return false;
     }
 
     public List<UrlResponse> getUserUrls(User user, String baseUrl) {

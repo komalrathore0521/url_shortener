@@ -9,8 +9,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,6 +55,27 @@ public class UrlController {
         List<UrlResponse> urls = urlService.getUserUrls(user, baseUrl);
 
         return ResponseEntity.ok(urls);
+    }
+
+    @DeleteMapping("/{shortUrl}")
+    public ResponseEntity<?> deleteUrl(@PathVariable String shortUrl) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Error: Authenticated user not found."));
+
+        try {
+            boolean deleted = urlService.deleteUrl(shortUrl, user);
+            if (deleted) {
+                return ResponseEntity.ok().build();
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "URL not found");
+            }
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("permission")) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+            }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 }
 
