@@ -68,17 +68,16 @@ export default function UrlForm({ onUrlCreated, onCancel }: UrlFormProps) {
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
       <div className="bg-gradient-to-r from-primary-500 to-primary-600 px-6 py-4">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center">
-          <LinkIcon className="h-6 w-6 text-primary-600 mr-2" />
-          <h2 className="text-xl font-semibold text-gray-900">Shorten a new URL</h2>
+        <div className="flex items-center text-white">
+          <Sparkles className="h-6 w-6 mr-2" />
+          <h2 className="text-xl font-semibold">Create Short Link</h2>
+          <button
+            onClick={onCancel}
+            className="text-white/80 hover:text-white transition-colors ml-auto"
+          >
+            <X className="h-6 w-6" />
+          </button>
         </div>
-        <button
-          onClick={onCancel}
-          className="text-gray-400 hover:text-gray-600 transition-colors"
-        >
-          <X className="h-6 w-6" />
-        </button>
       </div>
       
       <div className="p-6">
@@ -143,7 +142,6 @@ export default function UrlForm({ onUrlCreated, onCancel }: UrlFormProps) {
                     3-20 characters, letters and numbers only
                   </p>
                 </div>
-              <input
                 <div>
                   <label htmlFor="expirationDate" className="block text-sm font-medium text-gray-700 mb-2">
                     Expiration Date
@@ -164,7 +162,7 @@ export default function UrlForm({ onUrlCreated, onCancel }: UrlFormProps) {
               </div>
             </div>
           )}
-                {...register('expirationDate')}
+
           <div className="flex justify-end space-x-4 pt-4 border-t">
             <button
               type="button"
@@ -193,46 +191,6 @@ export default function UrlForm({ onUrlCreated, onCancel }: UrlFormProps) {
           </div>
         </form>
       </div>
-    </div>
-  )
-}
-                type="datetime-local"
-                className="input-field pr-10"
-                min={new Date().toISOString().slice(0, 16)}
-              />
-              <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
-            </div>
-            <p className="mt-1 text-xs text-gray-500">
-              Defaults to 30 days if not specified
-            </p>
-          </div>
-          <div className="flex items-center text-white">
-            <Sparkles className="h-6 w-6 mr-2" />
-            <h2 className="text-xl font-semibold">Create Short Link</h2>
-          <button
-            type="button"
-            onClick={onCancel}
-            className="btn-secondary"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={loading}
-            className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? (
-              <div className="flex items-center">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Shortening...
-              </div>
-            className="text-white/80 hover:text-white transition-colors"
-              'Shorten URL'
-            )}
-          </button>
-        </div>
-      </div>
-      </form>
     </div>
   )
 }
