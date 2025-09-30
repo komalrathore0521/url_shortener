@@ -48,3 +48,6 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(jwt));
     }
 }
+
+
+export default AuthController

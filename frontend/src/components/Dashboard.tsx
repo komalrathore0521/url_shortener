@@ -6,7 +6,7 @@ import UrlForm from './UrlForm'
 import UrlList from './UrlList'
 import Header from './Header'
 import LoadingSpinner from './LoadingSpinner'
-import { Plus, BarChart3, Link as LinkIcon, Calendar } from 'lucide-react'
+import { Plus, ChartBar as BarChart3, Link as LinkIcon, Calendar } from 'lucide-react'
 
 export default function Dashboard() {
   const [urls, setUrls] = useState<UrlResponse[]>([])
